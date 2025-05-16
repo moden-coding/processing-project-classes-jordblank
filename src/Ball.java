@@ -6,24 +6,22 @@ public class Ball {
     private PApplet canvas;
     int x = 100;
     int y = 200;
-    int mouseX;
-    int mouseY;
     boolean start = false;
-    int key;
-    int speed;
+    int speedX;
+    int speedY;
     int keyCode;
+    int color;
 
-    public Ball(int xPos, int yPos, PApplet c){
-        if (start == true){
+    public Ball(int xPos, int yPos, int sx, int sy, PApplet c){
         x = xPos;
         y = yPos;
-        speed = 3;
+        speedX = sx;
+        speedY = sy;
         size = 30;
         canvas = c;
         color = canvas.color(192, 178, 207);
-        canvas.circle(300, 300, mouseX);
+        //canvas.circle(300, 300, size);
 
-    }
 }
 
     public void display() {
@@ -31,8 +29,16 @@ public class Ball {
 
     }
    public void update(){
-        x -= speed;
-        y -= speed;
+        x += speedX;
+        y += speedY;
+
+        if (x < 0 || x > 800){
+            speedX *= -1;
+        
+        }
+        if (y < 0 || y > 750){
+            speedY *= -1;
+        }        
     }
 
     
