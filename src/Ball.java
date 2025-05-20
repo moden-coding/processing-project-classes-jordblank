@@ -4,8 +4,8 @@ public class Ball {
     int size;
     int brick;
     private PApplet canvas;
-    int x = 100;
-    int y = 200;
+    int x = 200;
+    int y = 600;
     boolean start = false;
     int speedX;
     int speedY;
@@ -29,18 +29,18 @@ public class Ball {
         canvas.circle (x, y, size);
 
     }
-//    public void update(){
-//         x += speedX;
-//         y += speedY;
+   public void update(){
+        x += speedX;
+        y += speedY;
 
-//         if (x < 0 || x > 800){
-//             speedX *= -1;
+        if (x < 0 || x > 800){
+            speedX *= -1;
         
-//         }
-//         if (y < 0 || y > 750){
-//             speedY *= -1;
-//         }        
-//     }
+        }
+        if (y < 0 || y > 750){
+            speedY *= -1;
+        }        
+    }
 
     public void ballTesting(int mX, int mY){
         x = mX;

@@ -1,14 +1,18 @@
-// import java.util.ArrayList;
-// import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import processing.core.*;
 
+
+
 public class App extends PApplet {
+    ArrayList<Brick> brick = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
     Ball first;
     Paddle paddle;
     Brick board;
-    // int x = (int)random(700);
-    // int y = (int)random(700);
+    int x = (int)random(500);
+   int y = (int)random(700);
     boolean start;
     public static void main(String[] args) {
         PApplet.main("App");
@@ -30,11 +34,13 @@ public class App extends PApplet {
         background(192, 178, 207);
         fill(192, 178, 207);
         if (start) {
-           // first.update();
-           first.ballTesting(mouseX, mouseY);
+           first.update();
+           //first.ballTesting(mouseX, mouseY);
             first.display();
             board.display();
             touching();
+            paddle.location();
+            checkCollision(first, board);
             
         
         } else {
@@ -55,7 +61,7 @@ public class App extends PApplet {
     }
 
     public void keyPressed() {
-        if (keyCode == DOWN) {
+        if (keyCode == UP) {
             start = true;
         if (keyCode == LEFT){
 
@@ -73,8 +79,30 @@ public class App extends PApplet {
     }
 
   public void touching(){
-    if(first.x + 16 == board.x);
-    System.out.println("touching");
-     
+    if(first.x + 16 == board.x){
+        board.x = (int)random(500);
+        
+   
   }
+    if (first.y + 16 == board.y){
+        board.y = (int)random(500);
+
+    }
+}
+    private void checkCollision(Ball ball, Brick brick) { //chat
+        float ballLeft = ball.x - ball.size / 2;
+        float ballRight = ball.x + ball.size / 2;
+        float ballTop = ball.y - ball.size / 2;
+        float ballBottom = ball.y + ball.size / 2;
+
+        float brickLeft = brick.x;
+        float brickRight = brick.x + 100;
+        float brickTop = brick.y;
+        float brickBottom = brick.y + 50;
+
+        if (ballRight > brickLeft && ballLeft < brickRight &&
+        ballBottom > brickTop && ballTop < brickBottom){
+        brick.moveToRandom();
+    }
+}
 }

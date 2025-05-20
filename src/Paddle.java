@@ -15,4 +15,9 @@ public class Paddle {
           canvas.rect (px, py, 100, 50);
 
     }
+
+public void paddleTesting(int mX, int mY){
+        px = mX;
+        py = mY;
+    }
 }
