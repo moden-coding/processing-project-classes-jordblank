@@ -21,6 +21,6 @@ public void display(){
 
 public void moveToRandom() {
     x = (int) canvas.random(0, canvas.width - 100); // chat
-    y = (int) canvas.random(0, canvas.height - 50); 
+    y = (int) canvas.random(0, canvas.height - 200); 
 }
 }

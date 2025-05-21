@@ -20,7 +20,7 @@ public class App extends PApplet {
 
     public void setup() {
         first = new Ball(400, 500, 10, 20, this);
-        paddle = new Paddle(400, 70, this); 
+        paddle = new Paddle(350, 670, this); 
         board = new Brick(250, 150, this);
 
     }
@@ -38,16 +38,17 @@ public class App extends PApplet {
            //first.ballTesting(mouseX, mouseY);
             first.display();
             board.display();
-            touching();
-            paddle.location();
+            paddle.display();
+            //touching();
+            //paddle.paddleTesting(mouseX, mouseY);
             checkCollision(first, board);
             
         
         } else {
             first.display();
             
-        }
-        paddle.px = mouseX;
+         }
+        // paddle.px = mouseX;
 
 
         //fill(159, 138, 181);
@@ -63,32 +64,30 @@ public class App extends PApplet {
     public void keyPressed() {
         if (keyCode == UP) {
             start = true;
-        if (keyCode == LEFT){
-
-        }
+       
         }
         if (keyCode == LEFT){
-            paddle.px =- 50;
-            paddle.location();
+            paddle.px -= 30;
+            paddle.display();
         }
         if (keyCode == RIGHT){
-            paddle.py =+50;
-            paddle.location();
+            paddle.px += 30;
+            paddle.display();
         }
 
     }
 
-  public void touching(){
-    if(first.x + 16 == board.x){
-        board.x = (int)random(500);
+//   public void touching(){
+//     if(first.x + 16 == board.x){
+//         board.x = (int)random(500);
         
    
-  }
-    if (first.y + 16 == board.y){
-        board.y = (int)random(500);
+//   }
+//     if (first.y + 16 == board.y){
+//         board.y = (int)random(500);
 
-    }
-}
+//     }
+// }
     private void checkCollision(Ball ball, Brick brick) { //chat
         float ballLeft = ball.x - ball.size / 2;
         float ballRight = ball.x + ball.size / 2;
@@ -104,5 +103,6 @@ public class App extends PApplet {
         ballBottom > brickTop && ballTop < brickBottom){
         brick.moveToRandom();
     }
+
 }
 }
