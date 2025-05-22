@@ -11,8 +11,9 @@ public class App extends PApplet {
     Ball first;
     Paddle paddle;
     Brick board;
+    int score = 0;
     int x = (int)random(500);
-   int y = (int)random(700);
+    int y = (int)random(700);
     boolean start;
     public static void main(String[] args) {
         PApplet.main("App");
@@ -40,8 +41,12 @@ public class App extends PApplet {
             board.display();
             paddle.display();
             //touching();
-            //paddle.paddleTesting(mouseX, mouseY);
-            checkCollision(first, board);
+            paddle.paddleTesting(mouseX, 670);
+            ballCollision(first, board);
+            paddleCollision(first, paddle);
+            fill(108, 89, 128);
+            textSize(30);
+            text("Score: " + score, 660, 40);
             
         
         } else {
@@ -67,11 +72,11 @@ public class App extends PApplet {
        
         }
         if (keyCode == LEFT){
-            paddle.px -= 30;
+             paddle.px -= 40;
             paddle.display();
         }
         if (keyCode == RIGHT){
-            paddle.px += 30;
+            paddle.px += 40;
             paddle.display();
         }
 
@@ -88,7 +93,7 @@ public class App extends PApplet {
 
 //     }
 // }
-    private void checkCollision(Ball ball, Brick brick) { //chat
+    private void  ballCollision(Ball ball, Brick brick) { //chatgpt helped me with this
         float ballLeft = ball.x - ball.size / 2;
         float ballRight = ball.x + ball.size / 2;
         float ballTop = ball.y - ball.size / 2;
@@ -102,6 +107,26 @@ public class App extends PApplet {
         if (ballRight > brickLeft && ballLeft < brickRight &&
         ballBottom > brickTop && ballTop < brickBottom){
         brick.moveToRandom();
+        score += 10;
+    }
+
+}
+private void  paddleCollision(Ball ball, Paddle paddle) { //modified the chatgt code from above
+        float ballLeft = first.x - first.size / 2;
+        float ballRight = first.x + first.size / 2;
+        float ballTop = first.y - first.size / 2;
+        float ballBottom = first.y + first.size / 2;
+
+        float paddleLeft = paddle.px;
+        float paddleRight = paddle.px + 130; //90
+        float paddleTop = paddle.py;
+        float paddleBottom = paddle.py + 30;
+
+        if (ballRight > paddleLeft && ballLeft < paddleRight &&
+        ballBottom > paddleTop && ballTop < paddleBottom){
+            first.speedY = -abs(first.speedY); //chatgpt helped me with the absolute command
+            score++;
+        
     }
 
 }

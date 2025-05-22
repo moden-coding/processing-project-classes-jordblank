@@ -13,8 +13,8 @@ public class Paddle {
         py = paddleY;
     }
     public void display(){
-        canvas.fill (0);
-          canvas.rect (px, py, 90, 30);
+        canvas.fill(108, 89, 128);
+          canvas.rect (px, py, 130, 30);
 
     }
 
@@ -22,6 +22,7 @@ public void paddleTesting(int mX, int mY){
         px = mX;
         py = mY;
     }
+
 
     // public int x(){
     //     return px;
