@@ -14,12 +14,16 @@ public class App extends PApplet {
     int score = 0;
     int x = (int)random(500);
     int y = (int)random(700);
+    int lives = 3;
     boolean start;
     public static void main(String[] args) {
         PApplet.main("App");
     }
 
     public void setup() {
+        // for (int i = 0 && first.x += 110){
+        //     rect(x, y, 100, 50);
+        // }
         first = new Ball(400, 500, 10, 20, this);
         paddle = new Paddle(350, 670, this); 
         board = new Brick(250, 150, this);
@@ -33,6 +37,7 @@ public class App extends PApplet {
 
     public void draw() {
         background(192, 178, 207);
+        gameBoard();
         fill(192, 178, 207);
         if (start) {
            first.update();
@@ -129,5 +134,27 @@ private void  paddleCollision(Ball ball, Paddle paddle) { //modified the chatgt 
         
     }
 
+}
+ public void gameBoard() { //sets up the gris and the image of the heifer and well as displays the score and the lives
+        background(192, 178, 207);
+        stroke(108, 89, 128);
+        strokeWeight(1);
+          fill(159, 138, 181);
+        rect(80, 70, 100, 50);
+      
+        rect(190, 70, 100, 50);
+        rect(310, 70, 100, 50);
+        rect(430, 70, 100, 50);
+        rect(540, 70, 100, 50);
+        // rect(100, 300, 500, 300);
+        // rect(100, 400, 500, 400);
+        textSize(30);
+        text("Lives: " + lives, 700, 700);
+        
+    }
+public void lives(){
+    if (first.y - 15 == 0 ){
+        lives--;
+    }
 }
 }
