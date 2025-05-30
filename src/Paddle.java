@@ -18,7 +18,7 @@ public class Paddle {
 
     }
 
-public void paddleTesting(int mX, int mY){
+public void move(int mX, int mY){
         px = mX;
         py = mY;
     }
