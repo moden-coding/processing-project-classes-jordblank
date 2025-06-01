@@ -3,6 +3,8 @@ import processing.core.PApplet;
 public class Brick {
 int x;
 int y;
+int height = 50;
+int width = 100;
 private PApplet canvas;
 
 public Brick(int bx, int by, PApplet c){
@@ -12,15 +14,26 @@ public Brick(int bx, int by, PApplet c){
 
 }
 public void display(){
-    canvas.rect(x, y, 100, 50);
+    canvas.rect(x, y, width, height);
    
 
 }
        
+public boolean ballCollision(Ball ball) { // chatgpt helped me with this
+        float ballLeft = ball.x - ball.size / 2;
+        float ballRight = ball.x + ball.size / 2;
+        float ballTop = ball.y - ball.size / 2;
+        float ballBottom = ball.y + ball.size / 2;
 
+        float brickLeft = x;
+        float brickRight = x + width;
+        float brickTop = y;
+        float brickBottom = y + height;
 
-public void moveToRandom() {
-    x = (int) canvas.random(0, canvas.width - 100); // chat
-    y = (int) canvas.random(0, canvas.height - 200); 
-}
+        if (ballRight > brickLeft && ballLeft < brickRight &&
+                ballBottom > brickTop && ballTop < brickBottom) {
+            return true;
+        }
+    return false;
+    }
 }
