@@ -21,7 +21,6 @@ public class Ball {
         size = 30;
         canvas = c;
         color = canvas.color(192, 178, 207);
-        //canvas.circle(300, 300, size);
 
 }
 

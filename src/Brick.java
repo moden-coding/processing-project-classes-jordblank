@@ -18,6 +18,7 @@ public void display(){
    
 
 }
+
        
 public boolean ballCollision(Ball ball) { // chatgpt helped me with this
         float ballLeft = ball.x - ball.size / 2;

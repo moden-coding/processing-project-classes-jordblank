@@ -24,8 +24,4 @@ public void move(int mX, int mY){
     }
     
 
-
-    // public int x(){
-    //     return px;
-    // }
 }

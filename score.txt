@@ -1,1 +1,1 @@
-highscore = score;
+1155

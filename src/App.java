@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import processing.core.*;
@@ -14,24 +16,23 @@ public class App extends PApplet {
     String highscore;
     int x = (int) random(500);
     int y = (int) random(700);
-    int lives = 3;
+    int lives;
     int scene;
-    boolean start;
+    boolean start = false;
 
     public static void main(String[] args) {
         PApplet.main("App");
     }
 
     public void setup() {
-        // for (int i = 0 && first.x += 110){
-        // rect(x, y, 100, 50);
-        // }
+        lives = 4;
         first = new Ball(400, 650, 10, 20, this);
         paddle = new Paddle(340, 670, this);
         board = new Brick(250, 150, this);
         if (scene == 1) {
             initializeGrid();
         }
+        highScore();
     }
 
     public void settings() {
@@ -69,6 +70,25 @@ public class App extends PApplet {
             scene = 2;
         }
 
+    }
+
+    public void mousePressed() {
+        if (scene == 1) {
+            gameStart();
+        }
+        if (scene == 2) {
+            gamePlay();
+        }
+        if (scene == 3) {
+            scene = 1;
+            lives = 4;
+            score = 0;
+            start = false;
+            first = new Ball(400, 650, 10, 20, this);
+            paddle = new Paddle(340, 670, this);
+            initializeGrid();
+
+        }
     }
 
     private void paddleCollision(Ball ball, Paddle paddle) {
@@ -110,12 +130,14 @@ public class App extends PApplet {
     private void lives() {
         if (first.y > 750) {
             lives--;
-            // initializeGrid();
         }
     }
 
     private void showStart() {
-        lives = 3;
+        if (start) {
+            lives = 3;
+            start = true;
+        }
         background(192, 178, 207);
         textSize(50);
         fill(108, 89, 128);
@@ -144,7 +166,7 @@ public class App extends PApplet {
         text("Game Over", 290, 290);
         textSize(20);
         text(" Click to restart", 340, 322);
-        text("Score: " + score, 367, 350);
+        text("Score: " + score, 367, 351);
         text("High Score: " + highscore, 340, 380);
 
     }
@@ -159,7 +181,9 @@ public class App extends PApplet {
             paddleCollision(first, paddle);
             fill(108, 89, 128);
             textSize(30);
-            text("Lives: " + lives, 550, 40);
+            if (lives == 3) {
+                text("Lives: " + lives, 550, 40);
+            }
 
             for (int i = brick.size() - 1; i >= 0; i--) {
                 Brick b = brick.get(i);
@@ -171,6 +195,7 @@ public class App extends PApplet {
                     // first.speedY -= first.speedY;
                 }
                 if (brick.size() == 0) {
+                    score += 20;
                     initializeGrid();
                 }
 
@@ -181,6 +206,7 @@ public class App extends PApplet {
     private void gamePlay() {
         fill(192, 178, 207);
         if (scene == 2) {
+
             lives();
             first.update();
             first.display();
@@ -200,7 +226,6 @@ public class App extends PApplet {
                 if (b.ballCollision(first)) {
                     brick.remove(i);
                     score += 10;
-                    // first.speedY -= first.speedY;
                 }
                 if (brick.size() == 0) {
                     initializeGrid();
@@ -211,37 +236,27 @@ public class App extends PApplet {
 
     }
 
-    public void mousePressed() {
-        if (scene == 1) {
-            gameStart();
-        }
-        if (scene == 2) {
-            gamePlay();
-        }
-        if (scene == 3) {
-            scene = 1;
-            lives = 3;
-            score = 0;
-            first = new Ball(400, 650, 10, 20, this);
-            paddle = new Paddle(340, 670, this);
-            initializeGrid();
-
-        }
-    }
-
- private void highScore(){
-    try (Scanner scanner = new Scanner(Paths.get("score.txt"))) {
-            while(scanner.hasNextLine()){
-                String highscore = scanner.nextLine();
-                System.out.println(highscore);
+    public void highScore() {
+        int currentHighscore = 0;
+        try (Scanner scanner = new Scanner(Paths.get("score.txt"))) {
+            if (scanner.hasNextLine()) {
+                currentHighscore = Integer.parseInt(scanner.nextLine());
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        if (scene == 3){
-            if(score > highscore){
-                highscore = score;
-            }
+
+        if (score > currentHighscore) {
+            currentHighscore = score;
         }
- }
+
+        try (PrintWriter writer = new PrintWriter("score.txt")) {
+            writer.println(currentHighscore);
+        } catch (IOException e) {
+            System.out.println("Error" + e.getMessage());
+
+        }
+        highscore = String.valueOf(currentHighscore);
+
+    }
 }
