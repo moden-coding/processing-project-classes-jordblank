@@ -13,18 +13,16 @@ public class App extends PApplet {
     Paddle paddle;
     Brick board;
     int score = 0;
-    String highscore;
-    int x = (int) random(500);
-    int y = (int) random(700);
+    int highscore;
     int lives;
     int scene;
-    boolean start = false;
+    boolean start = false; 
 
     public static void main(String[] args) {
         PApplet.main("App");
     }
 
-    public void setup() {
+    public void setup() { //initializing the ball, brick, and paddle and lives
         lives = 4;
         first = new Ball(400, 650, 10, 20, this);
         paddle = new Paddle(340, 670, this);
@@ -35,12 +33,12 @@ public class App extends PApplet {
         highScore();
     }
 
-    public void settings() {
+    public void settings() {//setting up the screen
         size(800, 750);
 
     }
 
-    public void draw() {
+    public void draw() { //setting the background and scene control
         background(192, 178, 207);
 
         if (scene == 0) {
@@ -49,7 +47,7 @@ public class App extends PApplet {
         if (scene == 1) {
             gameStart();
         }
-        if (scene == 2) {
+        if (scene == 2){
             gamePlay();
         }
         if (lives == 0) {
@@ -60,7 +58,7 @@ public class App extends PApplet {
 
     }
 
-    public void keyPressed() {
+    public void keyPressed() {//setting it so if the up key is pressed the bricks are initialized and if the down key is pressed the game will start
         if (keyCode == UP) {
             scene = 1;
             initializeGrid();
@@ -68,16 +66,15 @@ public class App extends PApplet {
         }
         if (keyCode == DOWN) {
             scene = 2;
+    
+
         }
 
     }
 
-    public void mousePressed() {
+    public void mousePressed() {//allowing for the scene to change if the mouse is pressed
         if (scene == 1) {
             gameStart();
-        }
-        if (scene == 2) {
-            gamePlay();
         }
         if (scene == 3) {
             scene = 1;
@@ -91,25 +88,9 @@ public class App extends PApplet {
         }
     }
 
-    private void paddleCollision(Ball ball, Paddle paddle) {
-        float ballLeft = first.x - first.size / 2;
-        float ballRight = first.x + first.size / 2;
-        float ballTop = first.y - first.size / 2;
-        float ballBottom = first.y + first.size / 2;
+   
 
-        float paddleLeft = paddle.px;
-        float paddleRight = paddle.px + 130; // 90
-        float paddleTop = paddle.py;
-        float paddleBottom = paddle.py + 30;
-
-        if (ballRight > paddleLeft && ballLeft < paddleRight &&
-                ballBottom > paddleTop && ballTop < paddleBottom) {
-            first.speedY = -abs(first.speedY);
-            score++;
-        }
-    }
-
-    private void initializeGrid() {
+    public void initializeGrid() { //setting up the array list of bricks and displaying them on the screen
         int columns = 6;
         int rows = 5;
         int height = 50;
@@ -127,13 +108,13 @@ public class App extends PApplet {
 
     }
 
-    private void lives() {
-        if (first.y > 750) {
+    public void lives() {//setting it so if the ball touchesthe bottom of the screen the lives will decrease;
+        if (first.y() > 750) {
             lives--;
         }
     }
 
-    private void showStart() {
+    public void showStart() { //setting up the start screen
         if (start) {
             lives = 3;
             start = true;
@@ -149,7 +130,7 @@ public class App extends PApplet {
         textSize(20);
         text("High Score: " + highscore, 630, 40);
         text("Click up key to intialize", 308, 330);
-        text("then down key to start!", 308, 355);
+        text("and down key to start", 310, 355);
         text("Instructions:", 360, 400);
         textSize(15);
         text("1. Use mouse to move paddle", 318, 420);
@@ -159,7 +140,7 @@ public class App extends PApplet {
 
     }
 
-    private void showEnd() {
+    public void showEnd() {//setting up the end screen
         background(192, 178, 207);
         fill(108, 89, 128);
         textSize(50);
@@ -171,14 +152,14 @@ public class App extends PApplet {
 
     }
 
-    private void gameStart() {
+    public void gameStart() {//setting up the initialized game screen
         fill(192, 178, 207);
         if (scene == 1) {
             lives();
             first.display();
             paddle.display();
             board.ballCollision(first);
-            paddleCollision(first, paddle);
+            first.paddleCollision(paddle);
             fill(108, 89, 128);
             textSize(30);
             if (lives == 3) {
@@ -189,7 +170,7 @@ public class App extends PApplet {
                 Brick b = brick.get(i);
                 b.display();
 
-                if (b.ballCollision(first)) {
+                if (board.ballCollision(first)) {
                     brick.remove(i);
                     score += 10;
                     // first.speedY -= first.speedY;
@@ -203,17 +184,16 @@ public class App extends PApplet {
         }
     }
 
-    private void gamePlay() {
+    public void gamePlay() { //allowing the game to start being played
         fill(192, 178, 207);
         if (scene == 2) {
-
             lives();
             first.update();
             first.display();
             paddle.display();
             paddle.move(mouseX, 670);
             board.ballCollision(first);
-            paddleCollision(first, paddle);
+            first.paddleCollision(paddle);
             fill(108, 89, 128);
             textSize(30);
             text("Score: " + score, 650, 40);
@@ -236,7 +216,7 @@ public class App extends PApplet {
 
     }
 
-    public void highScore() {
+    public void highScore() {//setting up the file writing and reading for the highscore
         int currentHighscore = 0;
         try (Scanner scanner = new Scanner(Paths.get("score.txt"))) {
             if (scanner.hasNextLine()) {
@@ -256,7 +236,7 @@ public class App extends PApplet {
             System.out.println("Error" + e.getMessage());
 
         }
-        highscore = String.valueOf(currentHighscore);
+        highscore = Integer.valueOf(currentHighscore);
 
     }
 }
